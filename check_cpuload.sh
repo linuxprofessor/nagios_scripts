@@ -29,7 +29,7 @@ if [[ ${WARN} != [0-9]* ]]; then
 	exit 3
 
 elif [[ ${CRIT} != [0-9]* ]]; then
-	echo -e "mERROR! Critical value -c is not an integer"
+	echo -e "ERROR! Critical value -c is not an integer"
 	exit 3
 fi
 
