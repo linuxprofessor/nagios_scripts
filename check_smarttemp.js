@@ -71,8 +71,8 @@ function disktemps() {
 // Calculate the mean temp
 function gettemp() {
 	//Get warn and crit temps from argv
-	warn = process.argv[2];
-	crit = process.argv[3];
+	warn = parseInt(process.argv[2]);
+	crit = parseInt(process.argv[3]);
 
 	// Check warn and crit values for errors etc.
 	if ((/^\d*$/.test(warn) == false) ||  (/^\d*$/.test(crit) == false)) {
@@ -89,15 +89,15 @@ function gettemp() {
 	totaltemp = totaltemp / disks.length;
 
 	if(totaltemp < warn) {
-		console.log("OK: Mean temp " + totaltemp + " C");
+		console.log("OK: Mean temp " + totaltemp + " C|Temperature=" + totaltemp + ";" + warn + ";" + crit + ";" + (warn - 5) + ";" + (crit + 5));
 		process.exit(0);
 	}
 	else if(totaltemp > warn && totaltemp < crit) {
-		console.log("WARNING: Mean temp " + totaltemp + " C");
+		console.log("WARNING: Mean temp " + totaltemp + " C|Temperature=" + totaltemp + ";" + warn + ";" + crit + ";" + (warn - 5) + ";" + (crit + 5));
 		process.exit(1);
 	}
 	else {
-		console.log("CRITICAL: Mean temp " + totaltemp + " C");
+		console.log("CRITICAL: Mean temp " + totaltemp + " C|Temperature=" + totaltemp + ";" + warn + ";" + crit + ";" + (warn - 5) + ";" + (crit + 5));
 		process.exit(2);
 	}
 };

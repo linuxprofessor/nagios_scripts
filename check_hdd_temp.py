@@ -57,7 +57,10 @@ if warn >= crit:
 	print "ERROR: Critical must be greater than warning"
 	raise SystemExit(3)
 
-if (total < warn): 	print "OK: Temperature: " + str(total) + " C|Temperature=" + str(total) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5) 	raise SystemExit(0) elif (total >= warn and total < crit):
+if (total < warn):
+	print "OK: Temperature: " + str(total) + " C|Temperature=" + str(total) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+	raise SystemExit(0)
+elif (total >= warn and total < crit):
 	print "WARNING: Temperature: " + str(total) + " C|Temperature=" + str(total) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
 	raise SystemExit(1)
 else:
