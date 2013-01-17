@@ -1,4 +1,7 @@
 #!/usr/node/bin/node
+/*
+check_smarttemp.js
+*/
 var fs = require('fs');
 var exec = require('child_process').exec;
 var child;
@@ -40,6 +43,7 @@ function disktemps() {
 
 //Calculate the mean temp
 function gettemp() {
+	//Get warn and crit temps from argv
 	warn = process.argv[2];
 	crit = process.argv[3];
 
@@ -50,7 +54,7 @@ function gettemp() {
 	}
 
 	if (warn >= crit) {
-		console.log("Warning value can't be bigger than crit value");
+		console.log("Warning value can't be bigger than or equal to crit value");
 		process.exit(3);
 	}
 
