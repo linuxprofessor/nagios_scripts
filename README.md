@@ -46,4 +46,12 @@ Check the temperature of hard drives and calculate a mean value
 Requires smartmontools and privileges to check the disk temperatures
 
     ~ $ ./check_hdd_temp.py -w [warning] -c [critical] [disks to check]
-    OK: CPU Temperature: 38 C
+    OK: Temperature: 38 C
+
+### check_smarttemp.js
+
+Check the temperature of hard drives and calculate a mean value
+Requires smartmontools and privileges to check the disk temperatures
+
+    ~ $ ./check_hdd_temp.py [warning temp] [critical temp] [disks to check, for example c0t1d0 c0t2d0]
+    OK: Mean temp: 40 C
