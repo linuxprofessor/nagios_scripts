@@ -1,7 +1,33 @@
 #!/usr/node/bin/node
 /*
-check_smarttemp.js
-*/
+
+ check_smarttemp.js - Nagios plugin for checking mean disk temperatures on SmartOS using smartmontools
+
+ * CDDL HEADER START
+ *
+ * The contents of this file are subject to the terms of the
+ * Common Development and Distribution License, Version 1.0 only
+ * (the "License").  You may not use this file except in compliance
+ * with the License.
+ *
+ * You can obtain a copy of the license at http://opensource.org/licenses/CDDL-1.0
+ *
+ * See the License for the specific language governing permissions
+ * and limitations under the License.
+ *
+ * When distributing Covered Code, include this CDDL HEADER in each
+ * file.
+ *
+ * If applicable, add the following below this CDDL HEADER, with the
+ * fields enclosed by brackets "[]" replaced with your own identifying
+ * information: Portions Copyright [yyyy] [name of copyright owner]
+ *
+ * CDDL HEADER END
+ *
+ * Copyright (c) 2013, Marcus Wilhelmsson. All rights reserved.
+ *
+ */
+
 var fs = require('fs');
 var exec = require('child_process').exec;
 var child;
@@ -9,6 +35,7 @@ var disks = [];
 var totaltemp = 0;
 var test = 0;
 
+// Location of the smartctl binary. This binary is NEEDED for the script to work.
 smartctlbin="/opt/custom/sbin/smartctl"
 
 // Process disks from argv
@@ -27,7 +54,7 @@ function processargs() {
         });
 };
 
-//Get temps from the disks usins smartctl
+// Get temps from the disks usins smartctl
 function disktemps() {
         for (i=0; i < disks.length; i++){
                 child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
@@ -41,7 +68,7 @@ function disktemps() {
         };
 };
 
-//Calculate the mean temp
+// Calculate the mean temp
 function gettemp() {
 	//Get warn and crit temps from argv
 	warn = process.argv[2];
@@ -58,7 +85,7 @@ function gettemp() {
 		process.exit(3);
 	}
 
-	//Calculate the mean temperature of the disks and write it to console. Raise proper exit value.
+	// Calculate the mean temperature of the disks and write it to console. Raise proper exit value.
 	totaltemp = totaltemp / disks.length;
 
 	if(totaltemp < warn) {
@@ -75,5 +102,5 @@ function gettemp() {
 	}
 };
 
-//Call the first function
+// Call the first function
 processargs();
