@@ -3,6 +3,8 @@
 
  check_smarttemp.js - Nagios plugin for checking mean disk temperatures on SmartOS using smartmontools
 
+ # ./check_smarttemp.js [warning] [critical] [zpool]
+
  * CDDL HEADER START
  *
  * The contents of this file are subject to the terms of the
@@ -38,7 +40,7 @@ var test = 0;
 // Location of the smartctl binary. This binary is NEEDED for the script to work.
 smartctlbin="/opt/custom/sbin/smartctl"
 
-// Process disks from zone given in argv
+// Process disks from zpool given in argv
 function processargs() {
     process.argv.forEach(function (val, index, array) {
         if(index == 4) {
