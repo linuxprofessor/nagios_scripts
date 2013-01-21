@@ -47,7 +47,7 @@ function processargs() {
            	child = exec("/usr/sbin/zpool status " + process.argv[index] + "|grep ONLINE|grep c|awk '{print $1}'", function (error, stdout, stderr) {
            		disks = stdout.split("\n");
            		disks.pop();
-				disktemps();
+           		disktemps();
         	});
         };
     });
