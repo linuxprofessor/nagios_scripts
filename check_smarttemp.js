@@ -38,34 +38,30 @@ var test = 0;
 // Location of the smartctl binary. This binary is NEEDED for the script to work.
 smartctlbin="/opt/custom/sbin/smartctl"
 
-// Process disks from argv
+// Process disks from zone given in argv
 function processargs() {
-        process.argv.forEach(function (val, index, array) {
-                if(index > 3) {
-                        disks[index-4] = val;
-                        if (fs.existsSync("/dev/rdsk/" + val) == false) {
-                        	console.log("Disk /dev/rdsk/" + val + " does not exist");
-                        	process.exit(3);
-                        }
-                };
-		if(index == process.argv.length-1) {
-			disktemps();
-		};
-        });
+    process.argv.forEach(function (val, index, array) {
+        if(index == 4) {
+           	child = exec("/usr/sbin/zpool status " + process.argv[index] + "|grep ONLINE|grep c|awk '{print $1}'", function (error, stdout, stderr) {
+           		disks = stdout.split("\n");
+           		disks.pop();
+				disktemps();
+        	});
+        };
+    });
 };
 
 // Get temps from the disks usins smartctl
 function disktemps() {
-        for (i=0; i < disks.length; i++){
-                child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
-                	totaltemp = totaltemp + parseInt(stdout);
+    for (i=0; i < disks.length; i++){
+        child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
+            totaltemp = totaltemp + parseInt(stdout);
 			test++;
-			
 			if(disks.length == test) {
 				gettemp();
 			};
 		});
-        };
+    };
 };
 
 // Calculate the mean temp
