@@ -36,6 +36,7 @@ var child;
 var disks = [];
 var totaltemp = 0;
 var test = 0;
+var counter = 0;
 
 // Location of the smartctl binary. This binary is NEEDED for the script to work.
 smartctlbin="/opt/custom/sbin/smartctl"
@@ -58,8 +59,8 @@ function disktemps() {
     for (i=0; i < disks.length; i++){
         child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
             totaltemp = totaltemp + parseInt(stdout);
-			test++;
-			if(disks.length == test) {
+			counter++;
+			if(disks.length == counter) {
 				gettemp();
 			};
 		});
