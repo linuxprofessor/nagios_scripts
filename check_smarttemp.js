@@ -43,28 +43,28 @@ smartctlbin="/opt/custom/sbin/smartctl"
 
 // Process disks from zpool given in argv
 function processargs() {
-    process.argv.forEach(function (val, index, array) {
-        if(index == 4) {
-           	child = exec("/usr/sbin/zpool status " + process.argv[index] + "|grep ONLINE|grep c|awk '{print $1}'", function (error, stdout, stderr) {
-           		disks = stdout.split("\n");
-           		disks.pop();
-           		disktemps();
-        	});
-        };
-    });
+	process.argv.forEach(function (val, index, array) {
+		if(index == 4) {
+			child = exec("/usr/sbin/zpool status " + process.argv[index] + "|grep ONLINE|grep c|awk '{print $1}'", function (error, stdout, stderr) {
+				disks = stdout.split("\n");
+				disks.pop();
+				disktemps();
+			});
+		};
+	});
 };
 
 // Get temps from the disks usins smartctl
 function disktemps() {
-    for (i=0; i < disks.length; i++){
-        child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
-            totaltemp = totaltemp + parseInt(stdout);
+	for (i=0; i < disks.length; i++){
+		child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
+			totaltemp = totaltemp + parseInt(stdout);
 			counter++;
 			if(disks.length == counter) {
 				gettemp();
 			};
 		});
-    };
+	};
 };
 
 // Calculate the mean temp

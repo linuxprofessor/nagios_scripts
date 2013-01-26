@@ -35,7 +35,7 @@ if (crit <= warn):
 #Connect to the 1-wire server
 hostname = results.hostname
 try:
-        file = urllib2.urlopen('http://' + hostname + '/details.xml')
+	file = urllib2.urlopen('http://' + hostname + '/details.xml')
 except:
 	print "Could not connect to " + hostname
 	raise SystemExit(3)
@@ -53,7 +53,7 @@ except:
 	print "Error reading 1-wire probe"
 	raise SystemExit(3)
 
-# Print status    
+# Print status
 if (sensor < warn):
 	print "OK: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
 	raise SystemExit(0)
