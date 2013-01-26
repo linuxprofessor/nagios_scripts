@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Check CPU load on SmartOS
 # Copyright Marcus Wilhelmsson
