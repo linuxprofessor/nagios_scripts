@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding: utf-8
 #
 # Check the humidity probes from a DS2438 sensor on EDS 1-wire server

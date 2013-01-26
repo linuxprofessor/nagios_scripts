@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding: utf-8
 #
 # Check the temperature probes on EDS 1-wire server

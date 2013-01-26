@@ -1,4 +1,4 @@
-#!/usr/node/bin/node
+#!/usr/bin/env node
 /*
 
  check_smarttemp.js - Nagios plugin for checking mean disk temperatures on SmartOS using smartmontools
