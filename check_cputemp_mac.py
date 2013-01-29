@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # coding: utf-8
 #
 # Check the CPU temperature on Mac OS X 
@@ -18,7 +18,7 @@ tempmonitor = "/Applications/TemperatureMonitor.app/Contents/MacOS/tempmonitor"
 # Check if above binary really exists
 if os.path.isfile(tempmonitor) == False:
 	print "Temperature Monitor not installed in /Applications"
-	raise SystemExit(3) 
+	raise SystemExit(3)
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Check CPU temperature on Mac OS X using Temperature Monitor')
@@ -40,13 +40,13 @@ except:
 	print "Error reading CPU temperature"
 	raise SystemExit(3)
 
-# Print status    
+# Print status
 if (sensor < warn):
- print "OK: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
- raise SystemExit(0)
+	print "OK: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+	raise SystemExit(0)
 elif (sensor >= warn and total < crit):
- print "WARNING: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
- raise SystemExit(1)
+	print "WARNING: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+	raise SystemExit(1)
 else:
- print "CRITICAL: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
- raise SystemExit(2)
+	print "CRITICAL: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+	raise SystemExit(2)

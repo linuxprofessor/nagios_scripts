@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/bin/env python
 # coding: utf-8
 #
 # Check the temperature of hard drives and calculate a mean value
