@@ -34,7 +34,7 @@ elif [[ ${CRIT} != [0-9]* ]]; then
 fi
 
 #Calculate current CPU load using mpstat
-numcpus=`mpstat|grep -v CPU|wc -l`
+numcpus=`kstat -p unix:0:system_misc:ncpus| awk '{print $2}'`
 total=0;for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do total=`expr $total + $line`; done
 cpupercent=$(expr 100 - `expr $total / $numcpus`)
 
