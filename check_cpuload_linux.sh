@@ -1,28 +1,35 @@
 #!/usr/bin/env bash
 #
-# Check CPU load on SmartOS
+# Check CPU load on Linux
+# Requires 'sysstat' package installed
 # Copyright Marcus Wilhelmsson
 # License: MIT
 #
+
+#Check if mpstat is installed
+if [ ! `which mpstat` ]; then
+	echo "Install sysstat package to get mpstat"
+	exit 0
+fi
 
 #Get args
 TEMP="getopt -o iawch:"
 while true; do
 	case "$1" in
 		-i) TYPE=individual; shift ;;
-		-a) TYPE=average; shift ;;
-		-w) WARN="$2"; shift 2 ;;
-		-c) CRIT="$2"; shift 2 ;;
-		-h) HELP=true; shift ;;
-		*) break ;;
+		-a ) TYPE=average; shift ;;
+		-w ) WARN="$2"; shift 2 ;;
+		-c ) CRIT="$2"; shift 2 ;;
+		-h ) HELP=true; shift ;;
+		* ) break ;;
 	esac
 done
 
 #Function for average monitoring
 average () {
-	numcpus=`kstat -p unix:0:system_misc:ncpus| awk '{print $2}'`
+	numcpus=`cat /proc/cpuinfo |grep processor|wc -l`
 	#Calculate current CPU load using mpstat
-	total=0;for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do total=`expr $total + $line`; done
+	total=0;for line in $(mpstat -u -P ALL 1 2|grep -v Average|tail -5|sed -e '/^$/d'|awk '{print $12}'|awk -F. '{print $1}'); do total=`expr $total + $line`; done
 	cpupercent=$(expr 100 - `expr $total / $numcpus`)
 
 	#Print monitoring info
@@ -45,9 +52,9 @@ average () {
 
 #Function for individual monitoring
 individual () {
-	numcpus=`kstat -p unix:0:system_misc:ncpus| awk '{print $2}'`
+	numcpus=`cat /proc/cpuinfo |grep processor|wc -l`
 	#Calculate current CPU load using mpstat
-	for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do
+	for line in $(mpstat -u -P ALL 1 2|grep -v Average|tail -5|sed -e '/^$/d'|awk '{print $12}'|awk -F. '{print $1}'); do
 		line=$(expr 100 - $line)
 		#Set a status that stays at the value from the most heavily loaded core
 		if [ $line -lt $WARN ]; then
@@ -83,7 +90,7 @@ individual () {
 
 #Print help
 if [[ $HELP == true ]]; then
-	echo "Check CPU load in SmartOS"
+	echo "Check CPU load in Linux using mpstat included in sysstat"
 	echo "Copyright Marcus Wilhelmsson"
 	echo "License: MIT"
 	echo
@@ -120,8 +127,4 @@ elif [[ $TYPE == individual ]]; then
 else
 	echo -e "Please choose average (-a) or individual (-i) monitoring"
 	exit 0
-<<<<<<< HEAD
 fi
-=======
-fi
->>>>>>> Linux version of check_cpuload
