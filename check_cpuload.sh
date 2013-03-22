@@ -8,14 +8,14 @@
 #Get args
 TEMP="getopt -o iawch:"
 while true; do
-  case "$1" in
-    -i) TYPE=individual; shift ;;
-    -a ) TYPE=average; shift ;;
-    -w ) WARN="$2"; shift 2 ;;
-    -c ) CRIT="$2"; shift 2 ;;
-	-h ) HELP=true; shift ;;
-    * ) break ;;
-  esac
+	case "$1" in
+		-i) TYPE=individual; shift ;;
+		-a) TYPE=average; shift ;;
+		-w) WARN="$2"; shift 2 ;;
+		-c) CRIT="$2"; shift 2 ;;
+		-h) HELP=true; shift ;;
+		*) break ;;
+	esac
 done
 
 #Function for average monitoring
@@ -77,7 +77,7 @@ individual () {
 		print2="$print2 Core$i=$coreload%;$WARN;$CRIT;;"
 		let i+=1
 	done
-	
+
 	echo "$print1|$print2"
 }
 
@@ -86,13 +86,13 @@ if [[ $HELP == true ]]; then
 	echo "Check CPU load in SmartOS"
 	echo "Copyright Marcus Wilhelmsson"
 	echo "License: MIT"
-	echo ""
+	echo
 	echo "Options:"
 	echo "-i individual monitoring of each CPU core OR -a average monitoring of all CPU cores"
 	echo "-w warning value in percent"
 	echo "-c critical value in percent"
 	echo "-h print this text"
-	echo ""
+	echo
 	exit 0
 fi
 
