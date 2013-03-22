@@ -8,7 +8,7 @@ Plugins
 
 Check the CPU load in SmartOS global zone
 
-    ~ $ ./check_cpuload -w [warning] -c [critical]
+    ~ $ ./check_cpuload [-i|-a] -w [warning] -c [critical]
     OK: CPU load: 15%
 
 ### check_cputemp_freebsd.py
