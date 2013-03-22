@@ -121,5 +121,3 @@ else
 	echo -e "Please choose average (-a) or individual (-i) monitoring"
 	exit 0
 fi
-
-
