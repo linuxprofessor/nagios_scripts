@@ -120,8 +120,4 @@ elif [[ $TYPE == individual ]]; then
 else
 	echo -e "Please choose average (-a) or individual (-i) monitoring"
 	exit 0
-<<<<<<< HEAD
 fi
-=======
-fi
->>>>>>> Linux version of check_cpuload
