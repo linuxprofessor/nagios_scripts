@@ -86,6 +86,12 @@ individual () {
 	done
 
 	echo "$print1|$print2"
+	case "$status" in
+		OK) exit 0; shift;;
+		WARNING) exit 1; shift;;
+		CRITICAL) exit 2; shift;;
+		*) exit 3;
+	esac
 }
 
 #Print help
