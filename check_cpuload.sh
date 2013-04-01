@@ -121,5 +121,5 @@ elif [[ $TYPE == individual ]]; then
 	individual
 else
 	echo -e "Please choose average (-a) or individual (-i) monitoring"
-	exit 1
+	exit 0
 fi
