@@ -18,7 +18,7 @@ smartctlbin="/usr/local/sbin/smartctl"
 # Check if above binary really exists
 if os.path.isfile(smartctlbin) == False:
 	print "Binary file for smartctl is faulty: " + smartctlbin
-	raise SystemExit(3) 
+	raise SystemExit(3)
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Check hard drive temperatures using smartmontools')

@@ -1,4 +1,4 @@
-#!/usr/node/bin/node 
+#!/usr/node/bin/node
 /*
 
  check_smarttemp.js - Nagios plugin for checking mean disk temperatures on SmartOS using smartmontools
@@ -56,7 +56,7 @@ function processargs() {
 
 // Get temps from the disks usins smartctl
 function disktemps() {
-	for (i=0; i < disks.length; i++){
+	for (i=0; i < disks.length; i++) {
 		child = exec(smartctlbin + " -a -d scsi /dev/rdsk/" + disks[i] + "|grep Current|awk '{print $4}'", function (error, stdout, stderr) {
 			totaltemp = totaltemp + parseInt(stdout);
 			counter++;

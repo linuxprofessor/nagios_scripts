@@ -1,14 +1,21 @@
 # Various Nagios scripts created by me
-====================
+======================================
 
 Plugins
 -------
 
-### check_cpuload
+### check_cpuload.sh
 
 Check the CPU load in SmartOS global zone
 
-    ~ $ ./check_cpuload [-i|-a] -w [warning] -c [critical]
+    ~ $ ./check_cpuload.sh [-i|-a] -w [warning] -c [critical]
+    OK: CPU load: 15%
+
+### check_cpuload_linux.sh
+
+Check the CPU load in Linux
+
+    ~ $ ./check_cpuload_linux.sh [-i|-a] -w [warning] -c [critical]
     OK: CPU load: 15%
 
 ### check_cputemp_freebsd.py
