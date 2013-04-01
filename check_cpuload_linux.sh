@@ -9,7 +9,7 @@
 # Check if mpstat is installed
 if [ ! `which mpstat` ]; then
 	echo "Install sysstat package to get mpstat"
-	exit 1
+	exit 0
 fi
 
 # Get args
@@ -128,5 +128,5 @@ elif [[ $TYPE == individual ]]; then
 	individual
 else
 	echo -e "Please choose average (-a) or individual (-i) monitoring"
-	exit 1
+	exit 0
 fi
