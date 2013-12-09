@@ -11,7 +11,14 @@ Check the CPU load in SmartOS global zone
     ~ $ ./check_cpuload [-i|-a] -w [warning] -c [critical]
     OK: CPU load: 15%
     
-### check_cpuload
+### check_cpuload_linux.sh
+
+Check the CPU load in Linux
+
+    ~ $ ./check_cpuload [-i|-a] -w [warning] -c [critical]
+    OK: CPU load: 15%
+    
+### check_cpuload_mac.sh
 
 Check the CPU load in OS X
 
