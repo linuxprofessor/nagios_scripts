@@ -5,13 +5,13 @@
 # License: MIT
 #
 
-#Check if iostat is installed
+# Check if iostat is installed
 if [ ! `which iostat` ]; then
 	echo "iostat not found"
 	exit 0
 fi
 
-#Get args
+# Get args
 TEMP="getopt -o wch:"
 while true; do
 	case "$1" in
@@ -22,14 +22,18 @@ while true; do
 	esac
 done
 
-#Function for monitoring
+# Function for monitoring
 monitor () {
-	#Calculate current CPU load using iostat
-	#Count twice, iostat always report 95% idle on the first count
-	total=$(/usr/sbin/iostat -c 2|tail -1|awk '{print $6}')
+	# Calculate current CPU load using iostat
+	# Count twice, iostat always report 95% idle on the first count
+	# Compensate for more than one mounted disk (i.e. disk0, disk1)
+	getcol=$(iostat|head -1|wc -w)
+	getcol=$(expr $getcol - 2)
+	getcol=$(($getcol * 3))
+	total=$(/usr/sbin/iostat -c 2|tail -1|awk '{print $'`echo $getcol`'}')
 	cpupercent=$(expr 100 - `expr $total`)
 
-	#Print monitoring info
+	# Print monitoring info
 	if [ $cpupercent -lt $WARN ]; then
 		echo -e "OK: CPU load: $cpupercent%|CPUload=$cpupercent%;$WARN;$CRIT"
 		exit 0
@@ -47,7 +51,7 @@ monitor () {
 	fi
 }
 
-#Print help
+# Print help
 if [[ $HELP == true ]]; then
 	echo "Check CPU load in OS X using iostat"
 	echo "Copyright Marcus Wilhelmsson"
@@ -61,7 +65,7 @@ if [[ $HELP == true ]]; then
 	exit 0
 fi
 
-#Make sure args for WARN and CRIT are int
+# Make sure args for WARN and CRIT are int
 if [[ $WARN != [0-9]* ]]; then
 	echo -e "ERROR! Warning value -w is not an integer"
 	exit 3
@@ -71,12 +75,12 @@ elif [[ $CRIT != [0-9]* ]]; then
 	exit 3
 fi
 
-#Check if WARN is higher than CRIT
+# Check if WARN is higher than CRIT
 if [ $WARN -gt $CRIT ]; then
 	echo -e "ERROR: Critical value -c must be higher than Warning -w"
 	exit 3
 fi
 
-#Run monitor function
+# Run monitor function
 monitor
 
