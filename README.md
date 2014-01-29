@@ -81,7 +81,6 @@ Requires snmpget to check the RAID status
 ### check_ypool.py
 
 Check the status of number miners online in ypool mining pool
-Uses curl, grep, awk etc. for now, might be rebuilt using Python JSON at some point
 
-    ~ $ ./check_ypool.py -K [API key] -ct [coin type] -w [warning] -c [critical]
+    ~ $ ./check_ypool.py -C [command] -K [API key] -ct [coin type] -w [warning] -c [critical]
     OK: Miners: 2;miners=2
