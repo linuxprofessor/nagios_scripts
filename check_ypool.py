@@ -40,10 +40,10 @@ def minerStatus():
 
 	# Print status
 	if (status <= int(results.critical)):
-		print "CRITICAL: Miners: " + str(status) + ";miners=" + str(status)
+		print "CRITICAL: Miners: " + str(status) + "|miners=" + str(status)
 		raise SystemExit(2)
 	elif (status > int(results.critical) and status <= int(results.warning)):
-		print "WARNING: Miners: " + str(status) + ";miners=" + str(status)
+		print "WARNING: Miners: " + str(status) + "|miners=" + str(status)
 		raise SystemExit(1)
 	else:
 		print "OK: Miners: " + str(status) + "|miners=" + str(status)
