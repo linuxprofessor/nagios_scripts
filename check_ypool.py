@@ -72,7 +72,7 @@ parser.add_argument('-w', action="store", dest="warning", help='Warning value')
 parser.add_argument('-c', action="store", dest="critical", help='Critical value')
 results = parser.parse_args()
 
-
+# Check command argument
 if(results.command == "minerstatus"):
 	minerStatus()
 elif(results.command == "personalstats"):
