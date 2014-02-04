@@ -32,7 +32,7 @@ if (crit <= warn):
 	parser.print_help()
 	raise SystemExit()
 
-#Connect to the 1-wire server
+# Connect to the 1-wire server
 hostname = results.hostname
 try:
 	file = urllib2.urlopen('http://' + hostname + '/details.xml')
@@ -40,11 +40,11 @@ except:
 	print "Could not connect to " + hostname
 	raise SystemExit(3)
 
-#Read the XML file and close it
+# Read the XML file and close it
 data = file.read()
 file.close()
 
-#Parse XML
+# Parse XML
 try:
 	dom = parseString(data)
 	xmlTag = dom.getElementsByTagName('Temperature')[probe].toxml()

@@ -5,7 +5,7 @@
 # License: MIT
 #
 
-#Get args
+# Get args
 TEMP="getopt -o iawch:"
 while true; do
 	case "$1" in
@@ -18,22 +18,20 @@ while true; do
 	esac
 done
 
-#Function for average monitoring
+# Function for average monitoring
 average () {
 	numcpus=`kstat -p unix:0:system_misc:ncpus| awk '{print $2}'`
-	#Calculate current CPU load using mpstat
-	total=0;for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do total=`expr $total + $line`; done
+	# Calculate current CPU load using mpstat
+	total=0; for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do total=`expr $total + $line`; done
 	cpupercent=$(expr 100 - `expr $total / $numcpus`)
 
-	#Print monitoring info
+	# Print monitoring info
 	if [ $cpupercent -lt $WARN ]; then
 		echo -e "OK: CPU load: $cpupercent%|CPUload=$cpupercent%;$WARN;$CRIT"
 		exit 0
-
 	elif [ $cpupercent -gt $WARN ] && [ $cpupercent -lt $CRIT ] || [ $cpupercent -eq $WARN ]; then
 		echo -e "WARNING: CPU load: $cpupercent%|CPUload=$cpupercent%;$WARN;$CRIT"
 		exit 1
-
 	elif [ $cpupercent -gt $CRIT ] || [ $cpupercent -eq $CRIT ]; then
 		echo -e "CRITCAL: CPU load: $cpupercent%|CPUload=$cpupercent%;$WARN;$CRIT"
 		exit 2
@@ -43,13 +41,13 @@ average () {
 	fi
 }
 
-#Function for individual monitoring
+# Function for individual monitoring
 individual () {
 	numcpus=`kstat -p unix:0:system_misc:ncpus| awk '{print $2}'`
-	#Calculate current CPU load using mpstat
+	# Calculate current CPU load using mpstat
 	for line in $(mpstat 1 2 |tail -n $numcpus |awk '{print $16}'); do
 		line=$(expr 100 - $line)
-		#Set a status that stays at the value from the most heavily loaded core
+		# Set a status that stays at the value from the most heavily loaded core
 		if [ $line -lt $WARN ]; then
 			if [[ $status != "WARNING" ]] && [[ $status != "CRITICAL" ]]; then
 				status="OK"
@@ -64,15 +62,14 @@ individual () {
 			echo -e "ERROR"
 			exit 3
 		fi
-		#Add all core loads to a variable
+		# Add all core loads to a variable
 		total="$total $line"
 	done
 
-	#Print monitoring info
+	# Print monitoring info
 	i=0
 	print1="$status: CPU load:"
-	for coreload in $total
-	do
+	for coreload in $total; do
 		print1="$print1 Core$i=$coreload%"
 		print2="$print2 Core$i=$coreload%;$WARN;$CRIT;;"
 		let i+=1
@@ -87,7 +84,7 @@ individual () {
 	esac
 }
 
-#Print help
+# Print help
 if [[ $HELP == true ]]; then
 	echo "Check CPU load in SmartOS"
 	echo "Copyright Marcus Wilhelmsson"
@@ -102,23 +99,22 @@ if [[ $HELP == true ]]; then
 	exit 0
 fi
 
-#Make sure args for WARN and CRIT are int
+# Make sure args for WARN and CRIT are int
 if [[ $WARN != [0-9]* ]]; then
 	echo -e "ERROR! Warning value -w is not an integer"
 	exit 3
-
 elif [[ $CRIT != [0-9]* ]]; then
 	echo -e "ERROR! Critical value -c is not an integer"
 	exit 3
 fi
 
-#Check if WARN is higher than CRIT
+# Check if WARN is higher than CRIT
 if [ $WARN -gt $CRIT ]; then
 	echo -e "ERROR: Critical value -c must be higher than Warning -w"
 	exit 3
 fi
 
-#Check what type of monitoring is desired
+# Check what type of monitoring is desired
 if [[ $TYPE == average ]]; then
 	average
 elif [[ $TYPE == individual ]]; then
