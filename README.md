@@ -62,6 +62,13 @@ Requires smartmontools and privileges to check the disk temperatures
     ~ $ ./check_hdd_temp.py -w [warning] -c [critical] [disks to check]
     OK: Temperature: 38 C
 
+### check_smartos_mem.sh
+
+Check the free/used memory status of a SmartOS hypervisor
+
+    ~ $ ./check_smartos_mem.sh -w [used memory warning percent] -c [used memory critical percent]
+    OK: Total mem: 24259 MB Free mem: 17264 (72%) MB Used mem: 6995 (28%) MB
+    
 ### check_smarttemp.js
 
 Check the temperature of hard drives and calculate a mean value
