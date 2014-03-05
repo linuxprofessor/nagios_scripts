@@ -16,7 +16,7 @@ fi
 TEMP="getopt -o iawch:"
 while true; do
 	case "$1" in
-		-i) TYPE=individual; shift ;;
+		-i ) TYPE=individual; shift ;;
 		-a ) TYPE=average; shift ;;
 		-w ) WARN="$2"; shift 2 ;;
 		-c ) CRIT="$2"; shift 2 ;;
@@ -29,7 +29,7 @@ done
 average () {
 	numcpus=`cat /proc/cpuinfo |grep processor|wc -l`
 	#Calculate current CPU load using mpstat
-	total=0;for line in $(mpstat -u -P ALL 1 2|grep -v Average|tail -5|sed -e '/^$/d'|awk '{print $12}'|awk -F. '{print $1}'); do total=`expr $total + $line`; done
+	total=0;for line in $(mpstat -u -P ALL 1 2|grep -v Average|sed -e '/^$/d'|tail -n $numcpus|sed -e '/^$/d'|awk '{print $12}'|awk -F. '{print $1}'); do total=`expr $total + $line`; done
 	cpupercent=$(expr 100 - `expr $total / $numcpus`)
 
 	#Print monitoring info
@@ -54,7 +54,7 @@ average () {
 individual () {
 	numcpus=`cat /proc/cpuinfo |grep processor|wc -l`
 	#Calculate current CPU load using mpstat
-	for line in $(mpstat -u -P ALL 1 2|grep -v Average|tail -5|sed -e '/^$/d'|awk '{print $12}'|awk -F. '{print $1}'); do
+	for line in $(mpstat -u -P ALL 1 2|grep -v Average|sed -e '/^$/d'|tail -n $numcpus|awk '{print $12}'|awk -F. '{print $1}'); do
 		line=$(expr 100 - $line)
 		#Set a status that stays at the value from the most heavily loaded core
 		if [ $line -lt $WARN ]; then
